@@ -1,6 +1,7 @@
 import random
 from art import logo
 
+#print logo
 print(logo)
 
 spl_cards = ['K', 'Q', 'J']

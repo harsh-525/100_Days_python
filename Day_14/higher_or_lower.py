@@ -6,6 +6,7 @@ loose = False
 score = 0
 print(logo)
 
+
 def higher(a_pos,score,loose):
 	if loose:
 		print(f"Sorry! that was wrong. the final score is {score}")
@@ -33,6 +34,5 @@ def higher(a_pos,score,loose):
 		higher(b_pos,score,True)
 			
 			
-
 higher(random.randint(0,len(data)-1),score,False)
 

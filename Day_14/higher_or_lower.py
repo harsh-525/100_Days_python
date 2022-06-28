@@ -33,6 +33,6 @@ def higher(a_pos,score,loose):
 	else:
 		higher(b_pos,score,True)
 			
-			
+
 higher(random.randint(0,len(data)-1),score,False)
 

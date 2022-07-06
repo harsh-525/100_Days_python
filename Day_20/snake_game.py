@@ -35,8 +35,7 @@ def show_score(count):
     score.pu()
     score.hideturtle()
     score.setposition(0, 280)
-    score.write(arg=f"Score: {count}", move=True, align='center', font=('Arial', 15, 'normal'))
-
+    score.write(arg=f"Score: {count}", move=True, align='center', font=('Courier', 15, 'normal'))
 
 
 def eat():
@@ -44,21 +43,22 @@ def eat():
     if tuts[0].distance(snack) < 15:
         count += 1
         snack.hideturtle()
-        show_score(count)
-        food()
-        return False
-    elif tuts[0].xcor() >= 295:
-        print('inside')
-        return False
+        show_score(count) #update score_board
+        food() #generate random food
+        return True
 
-def del_food():
-    return False
+
+def snake_growth():
+    new_segment = Turtle(shape='square')
+    new_segment.pu()
+    new_segment.setposition(tuts[-1].xcor() - 20, tuts[-1].ycor())
+    tuts.append(new_segment)
 
 
 def game():
     tut1 = Turtle(shape='square')
+    tut1.pu()
     tut2 = Turtle(shape='square')
-    tut2.color('red')
     tut2.pu()
     tut2.setposition(tut1.xcor() - 20, tut1.ycor())
     global tuts
@@ -76,9 +76,15 @@ def game():
         sc.onkeypress(key='Right', fun=turn_right)
         sc.onkeypress(key="Left", fun=turn_left)
         sc.onkeypress(key='Down', fun=turn_down)
-        if not eat():
+        if eat():
+            snake_growth()
+        if tuts[0].xcor() > 280 or tuts[0].xcor() < -280 or tuts[0].ycor() > 280 or tuts[0].ycor() < -280:
+            print("WALL HIT")
             return True
-
+        for x in tuts[1:]:
+            if tuts[0].distance(x) < 5:
+                print("HIT BODY")
+                return True
 
 
 food()
@@ -88,6 +94,7 @@ score.hideturtle()
 
 global count
 count = 0
+show_score(count)
 
 
 sc = Screen()
@@ -100,7 +107,8 @@ sc.listen()
 sc.tracer(0)
 count = 0
 if game():
-    sc.textinput(title="Score", prompt=f"you lost. Your score is {count}")
+    score.goto(0,0)
+    score.write("GAME OVER", align="CENTER", font=('Courier', 25, 'normal'))
 
 
 sc.exitonclick()

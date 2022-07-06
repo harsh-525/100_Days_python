@@ -15,6 +15,7 @@ tut.pu()
 tut.forward(400)
 tut.setheading(0)
 
+
 for x in range(10):
     for y in range(10):
         tut.color(random.choice(rgb))

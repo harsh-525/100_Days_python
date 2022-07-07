@@ -53,7 +53,7 @@ game = True
 while game:
     sc.update()
     b.move()
-    time.sleep(.1)  # slow down the ball speed because of while loop
+    time.sleep(.04)  # slow down the ball speed because of while loop
     # TODO 4: top and bottom wall collision bounce
     if b.ycor() >= 280 or b.ycor() <= -280:  # top and bottom wall collisions
         b.bounce_y()

@@ -9,11 +9,11 @@ class Cars(Turtle):
         self.shape('square')
         self.pu()
         self.shapesize(stretch_wid=1, stretch_len=2)
-        self.goto(random.randint(340, 900), random.randint(-240, 270))
+        self.goto(random.randint(-300, 300), random.randint(-240, 270))
         self.color(random.choice(tk_colors.COLORS))
         self.left(180)
 
     def move(self):
         self.fd(10)
         if self.xcor() < -300:
-            self.goto(random.randint(350, 450), random.randint(-240, 275))
+            self.goto(random.randint(320, 450), random.randint(-240, 275))

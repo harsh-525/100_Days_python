@@ -10,7 +10,7 @@ import time
 sc = Screen()
 sc.title("Turtle Crossing")
 sc.setup(width=600, height=600)
-sc.bgcolor('snow')
+sc.bgcolor('gray')
 sc.tracer(0)  # turn off animation
 
 # TODO 2: make the player
@@ -28,27 +28,33 @@ points.update_score_board()
 
 # TODO 6: Create cars
 vehs = []
-for _ in range(30):
+for _ in range(15):
     vehs.append(Cars())
 
+cars_speed = 0.1
 
+nearest = 500
 while game_on:
+    #  print(f"cars_speed: {cars_speed}")
     sc.update()
-    time.sleep(0.05)
-
-    for i in range(len(vehs)):
+    time.sleep(cars_speed)
+    y_cor = {}
+    for i in range(len(vehs)):  # moving cars
         vehs[i].move()
 
     # TODO 4 detect top line, reset to starting line and increase score
     if tut.ycor() == 280:
         tut.reset_pos()
+        cars_speed -= 0.02
         points.increase_score()
         points.update_score_board()
 
     # TODO 7: Detecting collision with a car
-    # if tut.distance(vehicle) <= 20:
-    #     print(tut.distance(vehicle))
-    #     print('collision')
-    #     game_on = False
+    for _ in vehs:
+        if tut.distance(_) <= 25:
+            print(tut.distance(_), tut.position(), _.position())
+            print('collision')
+            points.game_over()
+            game_on = False
 
 sc.exitonclick()

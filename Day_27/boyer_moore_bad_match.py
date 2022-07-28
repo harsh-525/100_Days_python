@@ -40,7 +40,6 @@ while pos < len(t):
         val += bad_match_table[t[pos+matched]]
         print(f'Moving {bad_match_table[t[pos+matched]]} positions')
         pos += (bad_match_table[t[pos+matched]]+matched)
-        print(f'POSITION CHANGED TO : {pos}')
         matched = 0
         p_pos = len(p)-1
 

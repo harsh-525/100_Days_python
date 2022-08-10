@@ -5,8 +5,24 @@ import pyperclip
 import json
 
 FONT_NAME = "Courier"
-# ---------------------------- PASSWORD GENERATOR ------------------------------- #
+# ---------------------------- SEARCH PASSWORD------------------------------- #
+def search():
+    data = None
+    try:
+        with open("password_file.json", mode="r") as file:
+            data = json.load(file)  # read the json file ~ json->dictionary
+            data = data[website_entry.get()]
+    except FileNotFoundError:
+        messagebox.showerror(title="File missing", message="File not present, Please enter data and search")
+    except KeyError as msg:
+        messagebox.showerror(title="Key missing", message=f"Key: {msg} not present in the saved data")
+    else:
+        messagebox.showinfo(title="Requested details", message=f"Website: {website_entry.get()}\n"
+                                                               f"EMAIL: {data['email']}\n"
+                                                               f"PASSWORD: {data['password']}")
+        del_entries()
 
+# ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def auto_geneate_password():
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
                'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -20,6 +36,7 @@ def auto_geneate_password():
 
     password_list = [choice(letters) for _ in range(nr_letters)] + [choice(symbols) for _ in range(nr_symbols)] + [choice(numbers) for _ in range(nr_numbers)]
     shuffle(password_list)
+    password_entry.delete(0, END)
     password_entry.insert(0, "".join(password_list))
     pyperclip.copy("".join(password_list))
 
@@ -58,7 +75,7 @@ def save_password():
             }
             try:
                 with open("password_file.json", mode="r") as file:
-                    data = json.load(file)  #read the json file ~ json->dictionary
+                    data = json.load(file)  # read the json file ~ json->dictionary
                     data.update(new_data)
                     new_data = data
             except FileNotFoundError:
@@ -85,21 +102,23 @@ canvas.grid(column=1, row=0)
 website = Label(text="website: ", font=(FONT_NAME, 15), highlightthickness=0)
 website.grid(column=0, row=1)
 website_entry = Entry(width=35, highlightthickness=1)
-website_entry.grid(column=1, row=1, columnspan=2)
+website_entry.grid(column=1, row=1)
 website_entry.focus()  # auto cursor i=on launch
+search = Button(text="SEARCH", width=20, highlightthickness=0, command=search)
+search.grid(column=2, row=1, columnspan=1)
 
 email = Label(text="Email/Username: ", font=(FONT_NAME, 15), highlightthickness=0)
 email.grid(column=0, row=2)
 email_entry = Entry(width=35, highlightthickness=1)
-email_entry.grid(column=1, row=2, columnspan=2)
+email_entry.grid(column=1, row=2, columnspan=1)
 
 password = Label(text="Password: ", font=(FONT_NAME, 15), highlightthickness=0)
 password.grid(column=0, row=3)
-password_entry = Entry(width=18, highlightthickness=1)
+password_entry = Entry(width=35, highlightthickness=1)
 password_entry.grid(column=1, row=3)
-generate_password = Button(text="Generate Password", highlightthickness=0, command=auto_geneate_password)
+generate_password = Button(text="Generate Password", width=20, highlightthickness=0, command=auto_geneate_password)
 generate_password.grid(column=2, row=3)
 
 add_password = Button(text="ADD", width=20, highlightthickness=0, command=save_password)
-add_password.grid(column=1, row=4, columnspan=2)
+add_password.grid(column=1, row=4, columnspan=1)
 window.mainloop()

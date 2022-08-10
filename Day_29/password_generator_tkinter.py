@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from random import randint, choice, shuffle
 import pyperclip
+import json
 
 FONT_NAME = "Courier"
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
@@ -28,7 +29,6 @@ def del_entries():
     email_entry.delete(0, END)
     password_entry.delete(0, END)
     website_entry.focus()
-    email_entry.insert(END, 'xxx@gmail.com')
 
 def valid_fields():
     if website_entry.get() == '':
@@ -50,8 +50,15 @@ def save_password():
                                                                           f"Password: {password_entry.get()}\n"
                                                                           f"SAVE THEM????")
         if is_ok:
-            with open("password_file.txt", mode="a") as file:
-                file.write(f"{website_entry.get()} | {email_entry.get()} | {password_entry.get()}\n")
+            new_data = {
+                website_entry.get(): {
+                    "email": email_entry.get(),
+                    "password": password_entry.get()
+                }
+            }
+            with open("password_file.json", mode="w") as file:
+                # file.write(f"{website_entry.get()} | {email_entry.get()} | {password_entry.get()}\n")
+                json.dump(new_data, file, indent=4)
                 messagebox.showinfo(title="SAVED PASSWORD", message="Details saved")
                 del_entries()
 
@@ -75,7 +82,6 @@ email = Label(text="Email/Username: ", font=(FONT_NAME, 15), highlightthickness=
 email.grid(column=0, row=2)
 email_entry = Entry(width=35, highlightthickness=1)
 email_entry.grid(column=1, row=2, columnspan=2)
-email_entry.insert(END, 'xxx@gmail.com')
 
 password = Label(text="Password: ", font=(FONT_NAME, 15), highlightthickness=0)
 password.grid(column=0, row=3)

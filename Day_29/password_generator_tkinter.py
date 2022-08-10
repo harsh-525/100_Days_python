@@ -56,11 +56,21 @@ def save_password():
                     "password": password_entry.get()
                 }
             }
-            with open("password_file.json", mode="w") as file:
-                # file.write(f"{website_entry.get()} | {email_entry.get()} | {password_entry.get()}\n")
-                json.dump(new_data, file, indent=4)
-                messagebox.showinfo(title="SAVED PASSWORD", message="Details saved")
-                del_entries()
+            try:
+                with open("password_file.json", mode="r") as file:
+                    data = json.load(file)  #read the json file ~ json->dictionary
+                    data.update(new_data)
+                    new_data = data
+            except FileNotFoundError:
+                print("File not found. Creating a new file")
+            except:
+                print("Empty file; populating with the data")
+            finally:
+                with open("password_file.json", mode="w") as file:
+                    # file.write(f"{website_entry.get()} | {email_entry.get()} | {password_entry.get()}\n")
+                    json.dump(new_data, file, indent=4)
+                    messagebox.showinfo(title="SAVED PASSWORD", message="Details saved")
+                    del_entries()
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()

@@ -62,7 +62,6 @@ known_button = Button(image=correct_img, highlightthickness=0, command=known_wor
 known_button.grid(column=1, row=1)
 
 generate_fr_word()
-
 window.mainloop()
 
 
